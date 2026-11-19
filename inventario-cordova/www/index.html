@@ -1,50 +1,120 @@
 <!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
-<html>
-    <head>
-        <meta charset="utf-8">
-        <!--
-        Customize this policy to fit your own app's needs. For more guidance, please refer to the docs:
-            https://cordova.apache.org/docs/en/latest/
-        Some notes:
-            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
-            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
-                * Enable inline JS: add 'unsafe-inline' to default-src
-        -->
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
-        <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">
-        <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
-        <meta name="color-scheme" content="light dark">
-        <link rel="stylesheet" href="css/index.css">
-        <title>Hello World</title>
-    </head>
-    <body>
-        <div class="app">
-            <h1>Apache Cordova</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: https://ssl.gstatic.com https://jsonplaceholder.typicode.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:; connect-src 'self' https://jsonplaceholder.typicode.com http://* https://*;">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+    <title>InventarioLab</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-top">
+                <h1>InventarioLab</h1>
+                <span id="estado-dispositivo" class="badge-estado">Conectando...</span>
             </div>
-        </div>
-        <script src="cordova.js"></script>
-        <script src="js/index.js"></script>
-    </body>
+            <p class="subtitle">Control de Equipos de Laboratorio</p>
+        </header>
+
+        <nav class="nav-tabs">
+            <button class="tab-btn active" data-target="vista-inventario">
+                📦 Inventario (<span id="contador-items">0</span>)
+            </button>
+            <button class="tab-btn" data-target="vista-registro">
+                ➕ Registrar
+            </button>
+            <button class="tab-btn" data-target="vista-api">
+                🌐 Proveedores
+            </button>
+        </nav>
+
+        <main class="main-content">
+            <section id="vista-inventario" class="vista active">
+                <div class="toolbar">
+                    <input type="search" id="input-buscar" placeholder="Buscar equipo, categoría o ubicación..." class="input-control">
+                    <button id="btn-recargar-semilla" class="btn-secondary" title="Restablecer inventario inicial">Restablecer</button>
+                </div>
+
+                <div id="mensaje-lista" class="alert hidden"></div>
+                <div id="lista-inventario" class="cards-list"></div>
+            </section>
+
+            <section id="vista-registro" class="vista">
+                <div class="card-form">
+                    <h2>Nuevo Equipo</h2>
+                    <p class="form-help">Ingresa los datos del equipo para agregarlo al inventario.</p>
+
+                    <div id="alerta-formulario" class="alert hidden"></div>
+
+                    <form id="form-producto" novalidate>
+                        <div class="form-group">
+                            <label for="nombre">Nombre del equipo *</label>
+                            <input type="text" id="nombre" name="nombre" class="input-control" placeholder="Ej. Switch Cisco 24 Puertos" required>
+                            <small class="error-msg" id="error-nombre"></small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="categoria">Categoría *</label>
+                            <select id="categoria" name="categoria" class="input-control" required>
+                                <option value="">Seleccione una categoría</option>
+                                <option value="Redes">Redes y Telecomunicaciones</option>
+                                <option value="Hardware">Hardware y Placas</option>
+                                <option value="Herramientas">Herramientas de Laboratorio</option>
+                                <option value="Insumos">Cables e Insumos</option>
+                            </select>
+                            <small class="error-msg" id="error-categoria"></small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cantidad">Cantidad disponible *</label>
+                            <input type="number" id="cantidad" name="cantidad" class="input-control" placeholder="Ej. 5" min="1" max="999" required>
+                            <small class="error-msg" id="error-cantidad"></small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ubicacion">Ubicación *</label>
+                            <input type="text" id="ubicacion" name="ubicacion" class="input-control" placeholder="Ej. Estante B2 / Bodega" required>
+                            <small class="error-msg" id="error-ubicacion"></small>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary">Guardar equipo</button>
+                            <button type="reset" id="btn-limpiar" class="btn-outline">Limpiar</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <section id="vista-api" class="vista">
+                <div class="api-header-card">
+                    <h2>Directorio de Proveedores</h2>
+                    <p>Consulta la lista actualizada de proveedores técnicos autorizados.</p>
+                    
+                    <div class="form-group" style="margin-top: 10px;">
+                        <label for="url-endpoint">Servidor de proveedores:</label>
+                        <input type="url" id="url-endpoint" class="input-control" value="https://jsonplaceholder.typicode.com/users">
+                    </div>
+
+                    <button id="btn-cargar-api" class="btn-primary" style="width: 100%; margin-top: 8px;">
+                        🔄 Actualizar directorio
+                    </button>
+                </div>
+
+                <div id="estado-api" class="alert hidden"></div>
+
+                <div id="lista-api" class="cards-list">
+                    <div class="empty-state">
+                        Presiona "Actualizar directorio" para cargar los proveedores disponibles.
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="cordova.js"></script>
+    <script src="js/index.js"></script>
+</body>
 </html>
