@@ -1,0 +1,37 @@
+[
+  {
+    "id": 101,
+    "nombre": "Router Cisco ISR 4321",
+    "categoria": "Redes",
+    "cantidad": 4,
+    "ubicacion": "Laboratorio Redes 1"
+  },
+  {
+    "id": 102,
+    "nombre": "Switch Catalyst 2960",
+    "categoria": "Redes",
+    "cantidad": 6,
+    "ubicacion": "Rack Principal B"
+  },
+  {
+    "id": 103,
+    "nombre": "Kit Arduino Uno R3",
+    "categoria": "Hardware",
+    "cantidad": 15,
+    "ubicacion": "Estante 3A"
+  },
+  {
+    "id": 104,
+    "nombre": "Cable UTP Cat 6 (Bobina)",
+    "categoria": "Insumos",
+    "cantidad": 2,
+    "ubicacion": "Bodega Técnica"
+  },
+  {
+    "id": 105,
+    "nombre": "Multímetro Digital Fluke",
+    "categoria": "Herramientas",
+    "cantidad": 8,
+    "ubicacion": "Gaveta de Préstamo 2"
+  }
+]
