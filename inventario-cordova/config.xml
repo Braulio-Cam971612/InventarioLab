@@ -2,12 +2,15 @@
 <widget id="com.ucr.inventariocordova" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>InventarioLab</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+        Aplicacion movil para el control de equipos y proveedores de laboratorio.
     </description>
-    <author email="dev@cordova.apache.org" href="https://cordova.apache.org">
-        Apache Cordova Team
+    <author email="soporte@inventariolab.cr" href="https://ucr.ac.cr">
+        Equipo InventarioLab
     </author>
     <content src="index.html" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
+    <access origin="*" />
+    <preference name="DisallowOverscroll" value="true" />
+    <preference name="BackgroundColor" value="0xfff8fafc" />
 </widget>
